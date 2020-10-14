@@ -1,9 +1,17 @@
 sudo: false
-
 language: go
-
 go:
 - 1.13.x
-
 script:
-  - make
+- make
+before_deploy:
+- tar cvzf logstash_exporter-${TRAVIS_TAG#?}-linux-amd64.tar.gz logstash_exporter
+deploy:
+  provider: releases
+  api_key:
+    secure: aECoekpQAuFPyLh2wkUHpRzTpajCZKnvYXPYFnftl2DrP13eS3bLV1LyHZfB+O6mdhwzohkdnFKLOh/AENzI5bfxAfhgcP7IjQoZtm32lxdz84utuxSdOZay5VvvEESpYRZfQXvvqC8OQdFjfFQwnTPy2LAdiu1qrg7Bv0aPUZwn6tXqYWTFM7K1vjvBKjFkAOAcsUrSHYZNcaZjuEpafDDy73eFsNYljz0n8LoA/6Zs+IK1aZ3z5nF3FndBrc57j1He2hINuC/xxbt48zTuZQFaYw+xQpq0QsFkS7/bKB3PkDaLhPMCX6+5wyW6XpZrSb0UKxbGjK/W//Ox6scfxyMiWUgOCeZ9wiajHV+wSdIaCU89J/sErtWEKDBNrXC/OFYPjOUH8Bt2mtn0NX2HbifKY3lGXKE5mdLCZAyspE2Y1Dqdpz+WJREkfdbO/81NHOwPw288vdUx/axLdFFG667n713zSH+7YJh6/W/gknV2LjplE6LUkWmVH0kr6fy8obqY/aGXb3aj4yeDXzCzyOgC73hqXojQy7s43oB6HCjw7uDX/Uc/gasvDrsSx2R7I4HQgU9PPs9kyQzlA0oPUQOx5YBzphver25Z7RqjzcT9GqDgsmLE4J8knYqPGj90u2baR4KxBFavGLOBoD1gQ5OhUzDhFOD88mcw9AClKTM=
+  file: logstash_exporter-${TRAVIS_TAG#?}-linux-amd64.tar.gz
+  on:
+    repo: criteo-forks/logstash_exporter
+    tags: true
+  skip_cleanup: true
